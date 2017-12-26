@@ -3,6 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
+
         <div class="col-md-8 col-md-offset-2">
             @include('layouts.partials.alert')
 
@@ -46,7 +47,16 @@
                     <a href="{{ route('tasks') }}">cancel</a>
                 </div>
                 @endif
+
             </form>
+
+            @if (count($tasksTrashed))
+                <div class="pull-right" style="float: right; ">
+                    <a href="{{ url('history') }}" class="btn btn-default">History</a>
+                </div>
+            @endif
+            <br><br>
+
 
             @forelse ($tasks as $task)
             <div class="panel panel-default">
@@ -75,6 +85,8 @@
             <div class="text-center">
                 {{ $tasks->links() }}
             </div>
+
+
         </div>
     </div>
 </div>

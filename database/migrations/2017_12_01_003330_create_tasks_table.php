@@ -19,6 +19,8 @@ class CreateTasksTable extends Migration
             $table->string('title');
             $table->string('description');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('CASCADE');
         });
     }
 

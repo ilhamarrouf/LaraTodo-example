@@ -32,6 +32,7 @@
                     <a class="navbar-brand" href="{{ url('/') }}">
                         {{ config('app.name', 'Laravel') }}
                     </a>
+
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
@@ -43,6 +44,7 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
+                        <a href="{{ route('tasks') }}" class="navbar-brand">Task</a>
                         @guest
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Tag;
 use App\Task;
 use Illuminate\Http\Request;
@@ -13,10 +14,11 @@ class TaskController extends Controller
         $tasks = auth()->user()->tasks()->oldest()->paginate(10);
         $edit = isset($task) ? auth()->user()->tasks()->find($task) : null;
 
+        $tasksTrashed = Auth::user()->tasks()->onlyTrashed()->get();
         return view('task', [
             'tasks' => $tasks,
             'edit' => $edit,
-        ]);
+        ], compact('tasksTrashed'));
     }
 
     public function store(Request $request)
@@ -66,7 +68,7 @@ class TaskController extends Controller
     }
 
     public function destroy(Task $task)
-    {   
+    {
         if (!auth()->user()->can('delete', $task)) {
             return back()->withDanger(
                 'Terjadi kesalahan!'
@@ -79,5 +81,22 @@ class TaskController extends Controller
         return back()->withSuccess(
             'Berhasil menghapus tugas'
         );
+
     }
+
+    public function history(Task $task = null)
+    {
+        $tasks = auth()->user()->tasks()->oldest()->paginate(10);
+
+        $tasksTrashed = Auth::user()->tasks()->onlyTrashed()->get();
+        return view('history', compact('tasksTrashed', 'tasks'));
+    }
+
+    public function restoreAll()
+    {
+        Auth::user()->tasks()->onlyTrashed()->restore();
+
+        return redirect('tasks')->withSuccess('Semua history berhasil dikembalikan');
+    }
+
 }
