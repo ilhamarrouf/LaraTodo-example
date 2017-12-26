@@ -38,6 +38,26 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="finished_at">Finished :
+                        <span><div class="pull-right">this date can be calculated from now</div></span>
+                    </label>
+                    <input class="form-control" type="text" name="finished_at" id="finished_at" value="{{ isset($edit) ? $edit->finished_at : old('finished_at') }}">
+                </div>
+
+                <div class="form-group">
+                    <label>Email to: </label>
+                    <input type="email" name="assign_to" id="assign_to" class="form-control" value="{{ isset($edit) ? $edit->assign_to : old('assign_to') }}">
+                </div>
+                <div class="form-group">
+                    <label>Subject : </label>
+                    <input type="subject" name="subject" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Message : </label>
+                    <input type="message" name="message" class="form-control">
+                </div>
+
                 <div class="form-group text-center">
                     <button class="btn btn-default">{{ isset($edit) ? 'Update' : 'Save' }}</button>
                 </div>
@@ -60,6 +80,16 @@
                 </div>
                 <div class="panel-body">
                     {{ $task->description }}
+                    <div class="pull-right">
+                        <span class="btn btn-primary btn-xs">{{ $task->assign_to }}</span>
+                        <span class="label label-danger">
+                            @if($task->finished_at >= $task->created_at)
+                                {{ $task->finished_at }}
+                            @else
+                                youre todo is invalid
+                            @endif
+                        </span>
+                    </div>
                 </div>
                 <div class="panel-footer">
                     <a href="{{ route('tasks', ['task' => $task->id]) }}" class="btn btn-success btn-xs">Edit</a>
@@ -82,11 +112,15 @@
 
 @section('script')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.13/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="{{ asset('datetimepicker/jquery.datetimepicker.full.js') }}"></script>
 <script>
 $(document).ready(function() {
     $('#tags').select2({
         tags: true
     });
 });
+$("#finished_at").datetimepicker();
 </script>
 @endsection
