@@ -22,4 +22,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/tasks', 'TaskController@store')->name('tasks.store');
     Route::post('/tasks/{task}', 'TaskController@update')->name('tasks.update');
     Route::get('/tasks/{task}/delete', 'TaskController@destroy')->name('tasks.destroy');
+    Route::get('/history', 'TaskController@history')->name('task.history');
+    Route::get('/restore', 'TaskController@restoreAll')->name('history.restore');
 });
