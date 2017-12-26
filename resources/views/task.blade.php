@@ -39,10 +39,10 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="finished">Finished :
-                        <span><div class="pull-right">this date be calculated from now</div></span>
+                    <label for="finished_at">Finished :
+                        <span><div class="pull-right">this date can be calculated from now</div></span>
                     </label>
-                    <input class="form-control" type="text" name="finished" id="finished" value="{{ isset($edit) ? $edit->finished : old('finished') }}">
+                    <input class="form-control" type="text" name="finished_at" id="finished_at" value="{{ isset($edit) ? $edit->finished_at : old('finished_at') }}">
                 </div>
 
                 <div class="form-group">
@@ -83,8 +83,8 @@
                     <div class="pull-right">
                         <span class="btn btn-primary btn-xs">{{ $task->assign_to }}</span>
                         <span class="label label-danger">
-                            @if($task->finished >= $task->created_at)
-                                {{ $task->finished }}
+                            @if($task->finished_at >= $task->created_at)
+                                {{ $task->finished_at }}
                             @else
                                 youre todo is invalid
                             @endif
@@ -121,6 +121,6 @@ $(document).ready(function() {
         tags: true
     });
 });
-$("#finished").datetimepicker();
+$("#finished_at").datetimepicker();
 </script>
 @endsection

@@ -26,7 +26,7 @@ class TaskController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:500',
-            'finished' => 'required',
+            'finished_at' => 'required',
             'assign_to'   => 'required',
         ]);
 
@@ -68,6 +68,7 @@ class TaskController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:500',
+            'finished_at' => 'required',
             'assign_to' => 'required',
         ]);
 
