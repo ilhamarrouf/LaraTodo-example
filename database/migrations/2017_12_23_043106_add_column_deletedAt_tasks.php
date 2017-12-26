@@ -14,7 +14,7 @@ class AddColumnDeletedAtTasks extends Migration
     public function up()
     {
         Schema::table('tasks', function (Blueprint $table) {
-            $table->datetime('deleted_at')->nullable();
+            $table->softDeletes();
         });
     }
 
