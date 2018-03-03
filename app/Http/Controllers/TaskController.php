@@ -28,11 +28,9 @@ class TaskController extends Controller
 
         $task = auth()->user()->tasks()->create($data);
 
-        $tags = collect($request->tags)->map(function ($tag) {
+        $task->tags()->sync(collect($request->tags)->map(function ($tag) {
             return Tag::firstOrCreate(['name' => $tag])->id;
-        });
-
-        $task->tags()->sync($tags);
+        }));
 
         return back()->withSuccess(
             'Berhasil menambahkan tugas'
@@ -54,11 +52,9 @@ class TaskController extends Controller
 
         $task->update($data);
 
-        $tags = collect($request->tags)->map(function ($tag) {
+        $task->tags()->sync(collect($request->tags)->map(function ($tag) {
             return Tag::firstOrCreate(['name' => $tag])->id;
-        });
-
-        $task->tags()->sync($tags);
+        }));
 
         return redirect()->route('tasks')->withSuccess(
             'Berhasil memperbarui tugas'
