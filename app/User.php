@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Task;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -28,7 +29,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function tasks()
+    public function tasks() : HasMany
     {
         return $this->hasMany(Task::class);
     }
