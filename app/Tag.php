@@ -7,7 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
-    protected $guarded = ['id'];
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+		'name',
+    ];
     
     public function tasks()
     {
