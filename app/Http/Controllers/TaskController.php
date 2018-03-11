@@ -53,7 +53,7 @@ class TaskController extends Controller
     }
 
     public function destroy(Task $task)
-    {   
+    {
         if (!auth()->user()->can('delete', $task)) {
             return back()->withDanger(trans('auth.unauthorized'));
         }

@@ -16,7 +16,7 @@ class Task extends Model
      * @var array
      */
     protected $fillable = [
-		'title', 'description',
+        'title', 'description',
     ];
 
     public function user() : BelongsTo
