@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    public function index($task = null)
+    public function index(int $task = null)
     {
-        $tasks = auth()->user()->tasks()->oldest()->paginate(10);
+        $tasks = auth()->user()->tasks()->oldest()->paginate();
         $edit = isset($task) ? auth()->user()->tasks()->find($task) : null;
 
         return view('task', compact('tasks', 'edit'));
