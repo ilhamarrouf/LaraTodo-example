@@ -17,7 +17,7 @@ class TaskPolicy
      * @param  \App\Task  $task
      * @return mixed
      */
-    public function update(User $user, Task $task)
+    public function update(User $user, Task $task) : bool
     {
         return $user->id === $task->user_id;
     }
@@ -29,7 +29,7 @@ class TaskPolicy
      * @param  \App\Task  $task
      * @return mixed
      */
-    public function delete(User $user, Task $task)
+    public function delete(User $user, Task $task) : bool
     {
         return $user->id === $task->user_id;
     }
