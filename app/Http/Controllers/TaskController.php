@@ -13,10 +13,7 @@ class TaskController extends Controller
         $tasks = auth()->user()->tasks()->oldest()->paginate(10);
         $edit = isset($task) ? auth()->user()->tasks()->find($task) : null;
 
-        return view('task', [
-            'tasks' => $tasks,
-            'edit' => $edit,
-        ]);
+        return view('task', compact('tasks', 'edit'));
     }
 
     public function store(Request $request)
