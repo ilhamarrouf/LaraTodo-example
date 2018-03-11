@@ -29,17 +29,13 @@ class TaskController extends Controller
             return Tag::firstOrCreate(['name' => $tag])->id;
         }));
 
-        return back()->withSuccess(
-            'Berhasil menambahkan tugas'
-        );
+        return redirect()->route('tasks')->withSuccess(trans('task.created'));
     }
 
     public function update(Request $request, Task $task)
     {
         if (!auth()->user()->can('update', $task)) {
-            return back()->withDanger(
-                'Terjadi kesalahan!'
-            );
+            return back()->withDanger(trans('auth.unauthorized'));
         }
 
         $data = $request->validate([
@@ -53,24 +49,18 @@ class TaskController extends Controller
             return Tag::firstOrCreate(['name' => $tag])->id;
         }));
 
-        return redirect()->route('tasks')->withSuccess(
-            'Berhasil memperbarui tugas'
-        );
+        return redirect()->route('tasks')->withSuccess(trans('task.updated'));
     }
 
     public function destroy(Task $task)
     {   
         if (!auth()->user()->can('delete', $task)) {
-            return back()->withDanger(
-                'Terjadi kesalahan!'
-            );
+            return back()->withDanger(trans('auth.unauthorized'));
         }
 
         $task->tags()->detach();
         $task->delete();
 
-        return back()->withSuccess(
-            'Berhasil menghapus tugas'
-        );
+        return redirect()->route('tasks')->withSuccess(trans('task.deleted'));
     }
 }
