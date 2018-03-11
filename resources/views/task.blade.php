@@ -8,12 +8,13 @@
 
             @if (isset($edit))
             <form action="{{ route('tasks.update', ['task' => $edit->id]) }}" method="POST">
+                {{ method_field('PATCH') }}
             @else
             <form action="{{ route('tasks.store') }}" method="POST">
             @endif
                 {{ csrf_field() }}
                 <div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
-                    <label for="title">Project Title:</label>
+                    <label for="title">Project Title* :</label>
                     <input class="form-control" type="text" name="title" id="title" value="{{ isset($edit) ? $edit->title : old('title') }}">
                     @if ($errors->has('title'))
                     <span class="help-block">
@@ -22,7 +23,7 @@
                     @endif
                 </div>
                 <div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
-                    <label for="description">Description</label>
+                    <label for="description">Description* :</label>
                     <textarea class="form-control" name="description" id="description" rows="3">{{ isset($edit) ? $edit->description : old('description') }}</textarea>
                     @if ($errors->has('description'))
                     <span class="help-block">
@@ -31,7 +32,7 @@
                     @endif
                 </div>
                 <div class="form-group">
-                    <label for="tags">Tags:</label>
+                    <label for="tags">Tags* :</label>
                     <select class="form-control" name="tags[]" id="tags" multiple="multiple" style="width: 100%">
                         @foreach (\App\Tag::all() as $tag)
                         <option {{ (isset($edit) ? $edit->tags()->get()->contains('name', $tag->name) : null) ? 'selected' : '' }} value="{{ $tag->name }}">{{ $tag->name }}</option>
@@ -62,8 +63,12 @@
                     {{ $task->description }}
                 </div>
                 <div class="panel-footer">
-                    <a href="{{ route('tasks', ['task' => $task->id]) }}" class="btn btn-success btn-xs">Edit</a>
-                    <a href="{{ route('tasks.destroy', ['task' => $task->id]) }}" class="btn btn-danger btn-xs" onclick="return confirm('Yakin menghapus tugas?')">Delete</a>
+                    <form action="{{ route('tasks.destroy', ['task' => $task->id]) }}" method="POST">
+                        {{ method_field('DELETE') }}
+                        {{ csrf_field() }}
+                        <a href="{{ route('tasks', ['task' => $task->id]) }}" class="btn btn-success btn-xs">Edit</a>
+                        <button class="btn btn-danger btn-xs" type="submit" onclick="return confirm('Yakin menghapus tugas?')">Delete</button>
+                    </form>
                 </div>
             </div>
             @empty

@@ -20,6 +20,6 @@ Auth::routes();
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/tasks/{task?}', 'TaskController@index')->name('tasks');
     Route::post('/tasks', 'TaskController@store')->name('tasks.store');
-    Route::post('/tasks/{task}', 'TaskController@update')->name('tasks.update');
-    Route::get('/tasks/{task}/delete', 'TaskController@destroy')->name('tasks.destroy');
+    Route::patch('/tasks/{task}', 'TaskController@update')->name('tasks.update');
+    Route::delete('/tasks/{task}', 'TaskController@destroy')->name('tasks.destroy');
 });
