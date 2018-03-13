@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Task\StoreTaskRequest;
+use App\Http\Requests\Task\UpdateTaskRequest;
 use App\Tag;
 use App\Task;
-use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
@@ -16,14 +17,11 @@ class TaskController extends Controller
         return view('task', compact('tasks', 'edit'));
     }
 
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:500',
-        ]);
-
-        $task = auth()->user()->tasks()->create($data);
+        $task = auth()->user()->tasks()->create(
+            $request->only('title', 'description')
+        );
 
         $task->tags()->sync(collect($request->tags)->map(function ($tag) {
             return Tag::firstOrCreate(['name' => $tag])->id;
@@ -32,18 +30,13 @@ class TaskController extends Controller
         return redirect()->route('tasks')->withSuccess(trans('task.created'));
     }
 
-    public function update(Request $request, Task $task)
+    public function update(UpdateTaskRequest $request, Task $task)
     {
         if (!auth()->user()->can('update', $task)) {
             return back()->withDanger(trans('auth.unauthorized'));
         }
 
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:500',
-        ]);
-
-        $task->update($data);
+        $task->update($request->only('title', 'description'));
 
         $task->tags()->sync(collect($request->tags)->map(function ($tag) {
             return Tag::firstOrCreate(['name' => $tag])->id;
